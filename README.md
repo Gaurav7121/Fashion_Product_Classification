@@ -56,5 +56,5 @@ When the file is uploaded you can see the category and sub-category is printed b
 
 ![alt text](https://i.ibb.co/ZHtdLwF/Screenshot-377.png)
 ![alt text](https://i.ibb.co/5Wx4nyb/Screenshot-378.png)
-![alt text](https://i.ibb.co/BzkPv64/Screenshot-371.png)
+![alt text](https://i.ibb.co/4jgXXFb/Screenshot-379.png)
 ![alt text](https://i.ibb.co/mDyP1Fx/Screenshot-380.png)
