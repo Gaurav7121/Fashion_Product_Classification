@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+
+<head>
+  <meta charset="UTF-8">
+  <title>COVID19</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+
+  <style>
+    ::placeholder {
+      color: rgb(13, 13, 14);
+      opacity: 0.8;
+      /* Firefox */
+      font-weight: bold;
+    }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+  <script>
+    $("#file-picker").change(function() {
+
+      var input = document.getElementById('file-picker');
+
+      for (var i = 0; i < input.files.length; i++) {
+        var ext = input.files[i].name.substring(input.files[i].name.lastIndexOf('.') + 1).toLowerCase()
+
+        if ((ext == 'jpg') || (ext == 'png')) {
+          $("#msg").text("Files are supported")
+        } else {
+          $("#msg").text("Files are NOT supported")
+          document.getElementById("file-picker").value = "";
+        }
+
+      }
+
+
+    });
+  </script>
+
+  <style media="screen">
+    /*just bg and body style*/
+    .container {
+      background-color: #1E2832;
+      padding-bottom: 20px;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    #top {
+      margin-top: 20px;
+    }
+
+    .btn-container {
+      background: #fff;
+      border-radius: 5px;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    .white {
+      color: white;
+    }
+
+    .imgupload {
+      color: #1E2832;
+      padding-top: 40px;
+      font-size: 7em;
+    }
+
+    #namefile {
+      color: black;
+    }
+
+    h4>strong {
+      color: #ff3f3f
+    }
+
+    /*this sets the actual file input to overlay our button*/
+    #fileup {
+      opacity: 0;
+      -moz-opacity: 0;
+      filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+      width: 200px;
+      cursor: pointer;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 40px;
+      height: 50px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container center" style='height:50%;width:40%;margin: 10px auto;'>
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="white">Fashion Image Classification :</h1>
+      </div>
+    </div>
+    <div class="btn-container" style='padding-bottom:10px;margin-bottom:10px;'>
+      <!--the three icons: default, ok file (img), error file (not an img)-->
+      <h3 style='color:black;margin:10px auto;'>Your Uploaded Image:</h3>
+      <img src=" {{url_for('send_image', filename=image_name)}}" style="width:200px;height:200px;">
+      <h4 style='color:black;margin:5px auto;'>Category of your Uploaded Image : {{tans}}</h4>
+      <h4 style='color:black;margin:5px auto;'>SubCategory of your Uploaded Image : {{tsub}}</h4>
+    </div>
+    <div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>Fashion Image Classification</title>
+<link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+
+<style>
+  ::placeholder {
+    color:rgb(13, 13, 14);
+    opacity:0.8; /* Firefox */
+    font-weight: bold;
+  }
+  </style>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+  <script>
+
+  var $input = $('input');
+var defaultpath = $input.attr('data-file');
+$input.change(function(){
+  var $this = $(this);
+  var path = $this.val();
+  if(path!=''){
+    $this.parent().attr('data-file',path);
+  }else{
+    $this.parent().attr('data-file',defaultpath);
+  }
+});
+
+    $("#file-picker").change(function(){
+
+        var input = document.getElementById('file-picker');
+
+        for (var i=0; i<input.files.length; i++)
+        {
+            var ext= input.files[i].name.substring(input.files[i].name.lastIndexOf('.')+1).toLowerCase()
+
+            if ((ext == 'jpg') || (ext == 'png'))
+            {
+                $("#msg").text("Files are supported")
+            }
+            else
+            {
+                $("#msg").text("Files are NOT supported")
+                document.getElementById("file-picker").value ="";
+            }
+
+        }
+
+
+    } );
+
+</script>
+
+<style media="screen">
+/*just bg and body style*/
+.container{
+background-color:#1E2832;
+padding-bottom:20px;
+margin-top:10px;
+border-radius:5px;
+}
+.center{
+text-align:center;
+}
+#top{
+margin-top:20px;
+}
+.btn-container{
+background:#fff;
+border-radius:5px;
+padding-bottom:20px;
+margin-bottom:20px;
+}
+.white{
+color:white;
+}
+.imgupload{
+color:#1E2832;
+padding-top:40px;
+font-size:7em;
+}
+#namefile{
+color:black;
+}
+h4>strong{
+color:#ff3f3f
+}
+
+/*this sets the actual file input to overlay our button*/
+#fileup{
+opacity: 0;
+-moz-opacity: 0;
+filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+width:200px;
+cursor: pointer;
+position:absolute;
+left: 50%;
+transform: translateX(-50%);
+bottom: 40px;
+height: 50px;
+}
+
+</style>
+
+</head>
+<body>
+<form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="container center" style='height:50%;width:40%;margin: 10px auto;'>
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="white">Image Upload</h1>
+		</div>
+	</div>
+
+				<div class="btn-container">
+					<!--the three icons: default, ok file (img), error file (not an img)-->
+					<h1 class="imgupload" style='padding-top:0px;margin-top:0px;margin-bottom:5px;'><i class="fa fa-file-image-o"></i></h1>
+					<!--this field changes dinamically displaying the filename we are trying to upload-->
+					<p id="namefile">Only pics allowed! (jpg,jpeg,bmp,png)</p>
+					<!--our custom btn which which stays under the actual one-->
+					<button type="button" id="btnup" class="btn btn-primary btn-lg">Browse pic!</button>
+					<!--this is the actual file input, is set with opacity=0 beacause we wanna see our custom one-->
+					<input type="file" name="file" id="file-upload" action='images*/'/>
+				</div>
+
+			<!--additional fields-->
+			<div>
+				<!--the defauld disabled btn and the actual one shown only if the three fields are valid-->
+        <input type="submit" style="margin:10px auto;;width:60%;" value="Predict!" class="btn btn-primary btn-block btn-large">
+
+			</div>
+</div>
+</form>
+
+<script type="text/javascript">
+
+$("#btnup").click(function(e) {
+  e.preventDefault();
+  $("#file-upload").trigger("click");
+});
+
+$('#file-upload').change(function(){
+//here we take the file extension and set an array of valid extensions
+  var res=$('#file-upload').val();
+  var arr = res.split("\\");
+  var filename=arr.slice(-1)[0];
+  filextension=filename.split(".");
+  filext="."+filextension.slice(-1)[0];
+  valid=[".jpg",".png",".jpeg",".bmp"];
+//if file is not valid we show the error icon, the red alert, and hide the submit button
+  if (valid.indexOf(filext.toLowerCase())==-1){
+      $( ".imgupload" ).hide("slow");
+
+      $('#namefile').css({"color":"red","font-weight":700});
+      $('#namefile').html("File "+filename+" is not  pic!");
+
+  }else{
+      //if file is valid we show the green alert and show the valid submit
+      $( ".imgupload" ).hide("slow");
+
+      $('#namefile').css({"color":"green","font-weight":700});
+      $('#namefile').html(filename);
+
+  }
+});
+</script>
+
+</body>
+</html>
