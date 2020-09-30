@@ -1,12 +1,14 @@
+#Loading data using pandas
 import pandas as pd
 
 df = pd.read_csv("styles.csv",error_bad_lines=False)
 df['image'] = df.apply(lambda row: str(row['id']) + ".jpg", axis=1)
 df = df.sample(frac=1).reset_index(drop=True)
+#Displaying the first 10 rows
 df.head(10)
 
 batch_size = 64
-
+#Importing data generator for augmentation
 from keras_preprocessing.image import ImageDataGenerator
 
 image_generator = ImageDataGenerator(
@@ -32,7 +34,7 @@ validation_generator = image_generator.flow_from_dataframe(
     batch_size=batch_size,
     subset="validation"
 )
-
+#Getting number of classes
 classes = len(training_generator.class_indices)
 from keras.models import Sequential, Model
 
@@ -87,7 +89,7 @@ model.fit_generator(
     epochs=5,
     verbose=1
 )
-
+#Saving Model
 model.save('mynewmodel1.h5')
 
 loss, acc = model.evaluate_generator(validation_generator, steps=ceil(0.2 * (df.size / batch_size)))
