@@ -1,11 +1,14 @@
 import os
 from uuid import uuid4
+import pandas as pd
 import pickle
 from flask import Flask, request, render_template, send_from_directory
 
+#Initializing Flask
 app = Flask(__name__)
 # app = Flask(__name__, static_folder="images")
 
+#Loading key and value pairs for the classes
 key_list = pickle.load(open('key_list', 'rb'))
 val_list = pickle.load(open('val_list', 'rb'))
 skey_list = pickle.load(open('skey_list', 'rb'))
@@ -38,7 +41,7 @@ def upload():
         #import tensorflow as tf
         import numpy as np
         from keras.preprocessing import image
-
+        #Loading Model for prediction
         from keras.models import load_model
         new_model = load_model('mynewmodel.h5')
         test_image = image.load_img('images1\\'+filename,target_size=(60,80))
